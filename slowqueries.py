@@ -163,7 +163,6 @@ class Heuristic(object):
     def check(self, val):
         for name, min, max in self.ranges:
             if val >= min and (val < max if max is not None else True):
-                print name, val, min, max
                 return name
 
         return None
