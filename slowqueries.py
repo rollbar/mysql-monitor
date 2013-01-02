@@ -50,8 +50,7 @@ def process_event(header, event):
         level = heuristic(header, event)
         if level and NOTIFICATION_LEVELS[level] >= notification_level:
             payload = {'header': header, 'data': event}
-            print 'reporting to ratchet.io', name, payload
-            #ratchet.report_message(name, level=level, payload_data=payload)
+            ratchet.report_message(name, level=level, payload_data=payload)
 
 
 def process_input():
@@ -60,7 +59,6 @@ def process_input():
     while True:
         line = sys.stdin.readline()
         if line:
-            print line
             tmp = lines + line
 
             header = HEADER_REGEX.search(tmp)
@@ -132,11 +130,11 @@ def main():
     parser = build_option_parser()
     (options, args) = parser.parse_args(sys.argv)
 
-    if len(args) != 1:
+    if len(args) != 2:
         parser.error('incorrect number of arguments')
         sys.exit(1)
 
-    access_token = args[0]
+    access_token = args[1]
     environment = options.environment
     notification_level = min(NOTIFICATION_LEVELS['critical'],
                              max(NOTIFICATION_LEVELS['debug'],
