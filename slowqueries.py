@@ -49,8 +49,8 @@ def process_event(header, event):
     for name, heuristic in heuristics.iteritems():
         level = heuristic(header, event)
         if level and NOTIFICATION_LEVELS[level] >= notification_level:
-            payload = {'header': header, 'data': event}
-            ratchet.report_message(name, level=level, payload_data=payload)
+            extra = {'header': header, 'data': event}
+            ratchet.report_message(name, level=level, extra_data=extra)
 
 
 def process_input():
@@ -84,11 +84,11 @@ def process_input():
 
 def build_heuristics(opts):
     return {
-        'Slow query': SlowQuery(0.000001, 0.00001, 0.0001, 0.001, 0.01),
+        'Slow query': SlowQuery(0.00001, 0.0001, 0.001, 0.01, 0.1),
         'Too many rows returned': TooManyRowsReturned(100, 1000, 10000, 100000, 100000),
         'Too many rows examined': TooManyRowsExamined(100, 1000, 10000, 100000, 100000),
         'Ratio of examined to returned is too high': RatioOfExaminedRowsTooHigh(10, 100, 1000, 10000, 100000),
-        'Long lock time': LongLockTime(0.000001, 0.00001, 0.0001, 0.001, 0.01)
+        'Long lock time': LongLockTime(0.00001, 0.0001, 0.001, 0.01, 0.1)
     }
 
 
