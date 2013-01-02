@@ -66,7 +66,7 @@ def process_input():
             if header:
                 current_header = header.groupdict()
                 clear_lines = True
-            else:
+            elif current_header:
                 matched_queries = QUERY_REGEX.finditer(tmp)
                 for match in matched_queries:
                     clear_lines = True
