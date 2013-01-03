@@ -50,7 +50,7 @@ def process_event(header, event):
         level = heuristic(header, event)
         if level and NOTIFICATION_LEVELS[level] >= notification_level:
             extra = {'header': header, 'data': event}
-            ratchet.report_message(name, level=level, extra_data=extra)
+            ratchet.report_message(name, level=level, extra_data=extra, payload_data={'language': 'sql'})
 
 
 def process_input():
@@ -188,7 +188,10 @@ class TooManyRowsExamined(Heuristic):
 
 class RatioOfExaminedRowsTooHigh(Heuristic):
     def calculate_val(self, header, event):
-        return int(header['rows_examined']) / float(header['rows_sent'])
+	if int(header['rows_sent']) > 0:
+            return int(header['rows_examined']) / float(header['rows_sent'])
+        else:
+            return 0
 
 
 class LongLockTime(Heuristic):
