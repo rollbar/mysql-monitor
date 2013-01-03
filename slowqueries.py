@@ -104,15 +104,6 @@ def build_option_parser():
                       default='production',
                       help='The environment in which the mysql instance is running.')
 
-    parser.add_option('-m',
-                      '--max_buffer_lines',
-                      dest='max_buffer_lines',
-                      type='int',
-                      default=500,
-                      help='The maximum number of lines to buffer the most recent ' \
-                           'slow query. This should be slightly larger than the maximum ' \
-                           'number of lines used by your SQL queries.')
-
     parser.add_option('-l',
                       '--level',
                       dest='notification_level',
