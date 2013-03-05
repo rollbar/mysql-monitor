@@ -1,13 +1,13 @@
 mysql-monitor
 =============
 
-Monitors a MySQL instance and reports back to Ratchet.io for various performance issues.
+Monitors a MySQL instance and reports back to Rollbar for various performance issues.
 
 Installation
 ------------
 
 ```bash
-git clone git@github.com:ratchetio/mysql-monitor.git
+git clone git@github.com:rollbar/mysql-monitor.git
 cd mysql-monitor
 
 pip install -r requirements.txt
@@ -35,7 +35,7 @@ Options:
                         The environment in which the mysql instance is
                         running.
   -l NOTIFICATION_LEVEL, --level=NOTIFICATION_LEVEL
-                        The minimum level to notify ratchet.io at. Valid
+                        The minimum level to notify Rollbar at. Valid
                         values: 0 - debug, 1 - info, 2 - warning, 3 - error, 
                         4 - critical
 ```

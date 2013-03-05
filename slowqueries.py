@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 """
-Processes mysql slow query log data and notifies ratchet.io of slow queries.
+Processes mysql slow query log data and notifies Rollbar of slow queries.
 """
 
 import optparse
 import re
 import sys
 
-import ratchet
+import rollbar
 
 VERSION = 0.1
 
@@ -44,13 +44,13 @@ notification_level = 'warning'
 
 def process_event(header, event):
     """
-    Notify ratchet.io about this query if the event passes the heuristics.
+    Notify Rollbar about this query if the event passes the heuristics.
     """
     for name, heuristic in heuristics.iteritems():
         level = heuristic(header, event)
         if level and NOTIFICATION_LEVELS[level] >= notification_level:
             extra = {'header': header, 'data': event}
-            ratchet.report_message(name, level=level, extra_data=extra, payload_data={'language': 'sql'})
+            rollbar.report_message(name, level=level, extra_data=extra, payload_data={'language': 'sql'})
 
 
 def process_input():
@@ -109,7 +109,7 @@ def build_option_parser():
                       dest='notification_level',
                       type='int',
                       default=NOTIFICATION_LEVELS['warning'],
-                      help='The minimum level to notify ratchet.io at. ' \
+                      help='The minimum level to notify Rollbar at. ' \
                            'Valid values: 0 - debug, 1 - info, 2 - warning, 3 - error, ' \
                            '4 - critical')
     return parser
@@ -131,7 +131,7 @@ def main():
                              max(NOTIFICATION_LEVELS['debug'],
                                  options.notification_level))
 
-    ratchet.init(access_token, environment)
+    rollbar.init(access_token, environment)
 
     heuristics = build_heuristics(options)
 
